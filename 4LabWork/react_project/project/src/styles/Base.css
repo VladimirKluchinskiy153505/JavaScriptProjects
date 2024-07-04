@@ -1,0 +1,54 @@
+.nav-list {
+    font-size: 30px;
+    list-style: none;
+    margin: 0;
+    padding: 0;
+    background-color: black;
+    display: flex;
+    justify-content: space-around;
+    align-items: center;
+    height: 70px; /* Вы можете настроить высоту под свои нужды */
+}
+
+.nav-list li {
+    display: inline;
+}
+
+.nav-list a {
+    text-decoration: none;
+    color: white;
+    padding: 10px 15px;
+    display: block;
+}
+
+.nav-list a:hover {
+    background-color: #333; /* Цвет при наведении, можно настроить под свои нужды */
+}
+table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 20px;
+    font-size: 24px;
+}
+
+/* Стили для заголовка таблицы */
+th, td {
+    padding: 12px;
+    text-align: left;
+    border-bottom: 1px solid #ddd;
+}
+
+/* Альтернативное оформление строк */
+tr:nth-child(even) {
+    background-color: #f9f9f9;
+}
+
+/* Задание стилей для заголовков */
+th {
+    background-color: #4CAF50;
+    color: white;
+}
+.container {
+    text-align: left;
+    margin:20px;
+}

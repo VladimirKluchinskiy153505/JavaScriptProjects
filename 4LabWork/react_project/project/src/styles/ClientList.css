@@ -1,0 +1,26 @@
+select {
+    position: static;
+    padding: 10px; /* Подходящий внутренний отступ */
+    font-size: 16px; /* Подходящий размер шрифта */
+    border: 1px solid #ccc; /* Линия вокруг select */
+    border-radius: 5px; /* Закругленные углы */
+    background-color: white; /* Фон */
+    color: #333; /* Цвет текста */
+    cursor: pointer; /* Индикатор указателя при наведении */
+}
+
+/* Стили для опций внутри select */
+select option {
+    background-color: white; /* Фон опции */
+    color: #333; /* Цвет текста опции */
+}
+
+/* Стили для опций внутри select при наведении */
+select option:hover {
+    background-color: #f0f0f0; /* Фон опции при наведении */
+}
+
+/* Стили для опций внутри select при выборе */
+select option:checked {
+    background-color: #e0e0e0; /* Фон выбранной опции */
+}

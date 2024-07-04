@@ -1,0 +1,48 @@
+.registration-form {
+    max-width: 600px; /* Set your desired maximum width */
+    margin: 20px; /* Center the form horizontally */
+    position: static;
+}
+
+.form-group {
+    margin-bottom: 30px;
+}
+
+label {
+    display: block;
+    font-size: 30px; /* Set your desired font size */
+    margin-bottom: 5px;
+}
+
+input {
+    width: 600px; /* Set your desired fixed width */
+    padding: 10px; /* Set your desired padding */
+    font-size: 30px; /* Set your desired font size */
+    border: 1px solid #ccc; /* Set your desired border color */
+    border-radius: 5px;
+    box-sizing: border-box;
+    margin-top: 5px;
+}
+
+button {
+    background-color: #3498db; /* Set your desired background color */
+    color: #fff; /* Set your desired text color */
+    padding: 10px 15px; /* Set your desired padding */
+    font-size: 30px; /* Set your desired font size */
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+}
+
+button:hover {
+    background-color: #2980b9; /* Set your desired hover background color */
+}
+.result-message{
+    margin: 20px;
+    font-size: 30px;
+}
+.error-message{
+    margin: 20px;
+    font-size: 30px;
+    color: firebrick;
+}
