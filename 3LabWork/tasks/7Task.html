@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Возраст и день недели</title>
+</head>
+<body>
+
+<script>
+  // Запрос даты рождения
+  var birthDate = prompt("Введите вашу дату рождения в формате ГГГГ-ММ-ДД:");
+
+  // Парсинг даты и расчет возраста
+  var currentDate = new Date();
+  var enteredDate = new Date(birthDate);
+  var age = currentDate.getFullYear() - enteredDate.getFullYear();
+
+  // Проверка на несовершеннолетних
+  if (age < 18) {
+    var parentalConsent = confirm("Вы несовершеннолетний. Требуется разрешение родителей для использования сайта. Продолжить?");
+    if (!parentalConsent) {
+      alert("Доступ запрещен. Спасибо за понимание.");
+      // Можно добавить код для перенаправления или других действий при отказе в доступе.
+    }
+  } else {
+    // Вывод возраста
+    alert("Ваш возраст: " + age + " лет.");
+
+    // Вывод дня недели для совершеннолетних
+    var daysOfWeek = ["Воскресенье", "Понедельник", "Вторник", "Среда", "Четверг", "Пятница", "Суббота"];
+    var dayOfWeek = daysOfWeek[enteredDate.getDay()];
+    alert("День недели вашего рождения: " + dayOfWeek);
+  }
+</script>
+
+</body>
+</html>

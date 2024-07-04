@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Решение задачи</title>
+</head>
+<body>
+<form id="baggageForm">
+  <label for="passengerName">Фамилия пассажира:</label>
+  <input type="text" id="passengerName" required>
+
+  <label for="itemsCount">Количество вещей в багаже:</label>
+  <input type="number" id="itemsCount" required>
+
+  <label for="totalWeight">Общий вес вещей:</label>
+  <input type="number" id="totalWeight" step="0.1" required>
+
+  <button type="button" onclick="addPassenger()">Добавить пассажира</button>
+
+  <button type="button" onclick="findAverageWeightDifference()">Найти пассажира</button>
+</form>
+
+<div id="result"></div>
+
+<script>
+  const passengers = [];
+  function addPassenger() {
+    const name = document.getElementById('passengerName').value;
+    const itemsCount = parseInt(document.getElementById('itemsCount').value);
+    const totalWeight = parseFloat(document.getElementById('totalWeight').value);
+
+    if (!isNaN(itemsCount) && !isNaN(totalWeight)&& itemsCount>0&&totalWeight>0) {
+      passengers.push({ name, itemsCount, totalWeight });
+      alert(`Пассажир ${name} добавлен.`);
+    } else {
+      alert('Пожалуйста, введите корректные значения.');
+    }
+  }
+
+  function findAverageWeightDifference() {
+    const averageWeight = calculateAverageWeight();
+
+    if (passengers.length === 0) {
+      alert('Добавьте хотя бы одного пассажира.');
+      return;
+    }
+
+    let closestPassenger = null;
+    let minDifference = Number.MAX_VALUE;
+
+    passengers.forEach(passenger => {
+      const passengerAverageWeight = passenger.totalWeight / passenger.itemsCount;
+      const difference = Math.abs(passengerAverageWeight - averageWeight);
+
+      if (difference <= 0.3 && difference < minDifference) {
+        minDifference = difference;
+        closestPassenger = passenger;
+      }
+    });
+
+    if (closestPassenger) {
+      document.getElementById('result').innerText = `Найден пассажир: ${closestPassenger.name}`;
+    } else {
+      document.getElementById('result').innerText = 'Подходящий пассажир не найден.';
+    }
+  }
+
+  function calculateAverageWeight() {
+    if (passengers.length === 0) {
+      return 0;
+    }
+
+    let totalItemsCount = 0;
+    let totalWeight = 0;
+
+    passengers.forEach(passenger => {
+      totalItemsCount += passenger.itemsCount;
+      totalWeight += passenger.totalWeight;
+    });
+
+    return totalWeight / totalItemsCount;
+  }
+</script>
+</body>
+</html>

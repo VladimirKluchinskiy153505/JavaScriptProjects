@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function Person(name, age, year){
+        this.name = name;
+        this.age = age;
+        this.year = year;
+    }
+    var employee1 = new Person("Ivan", 25, 2017);
+    employee1.sayAge = function(n){
+        console.log("Person is "+n+"years old");
+    };
+    employee1.sayAge(77);
+    var person = {
+        name:"Ivan",
+        age:25,
+        hiredYear: 2017
+    }
+    person.sayAll = function(){
+        for(var i in this){
+            console.log(i+" is "+this[i]);
+        }
+    }
+    person.sayAll();
+</script>
+</body>
+</html>

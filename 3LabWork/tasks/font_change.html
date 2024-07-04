@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+    <style>
+        body {
+            font-size: 16px;
+            color: black;
+            background-color: #ffffff;
+            transition: all 0.3s ease; /* Анимация для плавных изменений */
+        }
+    </style>
+</head>
+<body>
+<h3>HelloWorld</h3>
+<label>
+    <input type="checkbox" id="styleCheckbox"> Изменить стиль
+</label>
+
+<form id="styleForm" style="display: none;">
+    <label for="fontSize">Размер шрифта:</label>
+    <input type="range" id="fontSize" min="10" max="30" step="1" value="16">
+
+    <label for="textColor">Цвет текста:</label>
+    <input type="color" id="textColor" value="#000000">
+
+    <label for="bgColor">Цвет фона:</label>
+    <input type="color" id="bgColor" value="#ffffff">
+    <button id="reset-btn">Reset</button>
+</form>
+<script>
+    const styleCheckbox = document.getElementById('styleCheckbox');
+    const styleForm = document.getElementById('styleForm');
+    const fontSizeInput = document.getElementById('fontSize');
+    const textColorInput = document.getElementById('textColor');
+    const bgColorInput = document.getElementById('bgColor');
+    const resetButton = document.getElementById('reset-btn');
+
+    styleCheckbox.addEventListener('change', function() {
+        if (styleCheckbox.checked) {
+            // Если флажок отмечен, отображаем форму
+            styleForm.style.display = 'block';
+        } else {
+            // Если флажок снят, скрываем форму и сбрасываем стили
+            styleForm.style.display = 'none';
+            //resetStyles();
+        }
+    });
+    fontSizeInput.addEventListener('input', function() {
+        // Изменение размера шрифта
+        document.body.style.fontSize = fontSizeInput.value + 'px';
+    });
+
+    textColorInput.addEventListener('input', function() {
+        // Изменение цвета текста
+        document.body.style.color = textColorInput.value;
+    });
+    bgColorInput.addEventListener('input', function() {
+        // Изменение цвета фона
+        document.body.style.backgroundColor = bgColorInput.value;
+    });
+    resetButton.addEventListener('click', function(){
+        resetStyles();
+    })
+    function resetStyles() {
+        // Сброс стилей к значениям по умолчанию
+        document.body.style.fontSize = '16px';
+        document.body.style.color = 'black';
+        document.body.style.backgroundColor = '#ffffff';
+    }
+</script>
+</body>
+</html>

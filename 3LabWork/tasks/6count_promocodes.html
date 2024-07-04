@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Calculate Cost</title>
+</head>
+<body>
+<form id="promoCodeForm">
+    <label for="promoCode">Промокод:</label>
+    <input type="text" id="promoCode" />
+    <button type="button" onclick="applyPromoCode()">Применить промокод</button>
+</form>
+
+<p id="totalCost">Общая стоимость: ${{ total_cost }}</p>
+
+<script>
+    function applyPromoCode() {
+        var promoCodeInput = document.getElementById('promoCode');
+        var promoCode = promoCodeInput.value;
+
+        // Отправить запрос на сервер для проверки промокода
+        fetch('/check_promo_code/', {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json',
+                'X-CSRFToken': '{{ csrf_token }}'
+            },
+            body: JSON.stringify({ promo_code: promoCode })
+        })
+            .then(response => response.json())
+            .then(data => {
+                // Обработка ответа от сервера
+                if (data.success) {
+                    // Применить скидку, пересчитать общую стоимость
+                    var discountPercentage = data.discount_percentage;
+                    var originalTotalCost = parseFloat('{{ total_cost }}');
+                    var discountedTotalCost = originalTotalCost * (1 - discountPercentage / 100);
+
+                    // Отобразить обновленную стоимость
+                    document.getElementById('totalCost').innerHTML = 'Общая стоимость со скидкой: $' + discountedTotalCost.toFixed(2);
+                } else {
+                    alert('Промокод недействителен.');
+                }
+            })
+            .catch(error => console.error('Ошибка:', error));
+    }
+</script>
+</body>
+</html>

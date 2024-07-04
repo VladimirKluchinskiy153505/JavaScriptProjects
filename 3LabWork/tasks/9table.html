@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<table id ="resultTable"></table>
+<input type="text" id="tableSizeInput"  value="8">
+<button id="generate-btn">Generate</button>
+<button id="transposeButton">Transpose</button>
+
+<button id="addRowButton">Transpose</button>
+<button id="addColumnButton">Transpose</button>
+
+<input type="text" id="limitInput"  value="8">
+<input type="submit" value="Send" onclick="saveAndReload()">
+    <label for="fontSize">Размер шрифта:</label>
+    <input type="range" id="fontSize" min="10" max="30" step="1" value="16">
+
+    <label for="textColor">Цвет текста:</label>
+    <input type="color" id="textColor" value="#000000">
+
+    <label for="bgColor">Цвет фона:</label>
+    <input type="color" id="bgColor" value="#ffffff">
+    <button id="reset-btn">Reset</button>
+
+<script>
+    const table = document.getElementById("resultTable");
+    const tableSizeInput = document.getElementById("tableSizeInput");
+    const generateButton = document.getElementById("generateButton");
+
+
+    generateButton.addEventListener("click", () => {
+        let size = parseInt(tableSizeInput.value);
+
+        // Проверяем, что введен корректный размер таблицы
+        if (isNaN(size) || size <= 0) {
+            alert("Введите корректный размер таблицы!");
+            return;
+        }
+
+        generateRandomTable(size);
+    });
+
+    function getRandomNumber(min, max) {
+        return Math.floor(Math.random() * (max - min + 1)) + min;
+    }
+
+    function generateRandomTable(size) {
+        table.innerHTML = "";
+        for (let i = 0; i < size; i++) {
+            let row = table.insertRow();
+
+            for (let j = 0; j < size; j++) {
+                let cell = row.insertCell();
+                cell.textContent = getRandomNumber(1, 100);
+                // Добавляем обработчик события при клике на ячейку
+                cell.addEventListener("click", highlightCell);
+            }
+        }
+    }
+
+    const transposeButton = document.getElementById("transposeButton");
+    transposeButton.addEventListener("click", () => {
+            let rows = table.rows;
+            let cols = rows[0].cells.length;
+
+            let transposedTable = [];
+
+            for (let j = 0; j < cols; j++) {
+                transposedTable[j] = [];
+
+                for (let i = 0; i < rows.length; i++) {
+                    transposedTable[j][i] = rows[i].cells[j].textContent;
+                }
+            }
+
+            // Очищаем предыдущее содержимое таблицы
+            table.innerHTML = "";
+
+            for (let i = 0; i < transposedTable.length; i++) {
+                let row = table.insertRow();
+
+                for (let j = 0; j < transposedTable[i].length; j++) {
+                    let cell = row.insertCell();
+                    cell.textContent = transposedTable[i][j];
+                    cell.addEventListener("click", highlightCell);
+                }
+            }
+        }
+    );
+
+    function addRow() {
+        let newRow = table.insertRow();
+
+        // Создаем ячейки для новой строки
+        for (let i = 0; i < table.rows[0].cells.length; i++) {
+            let newCell = newRow.insertCell();
+            newCell.textContent = getRandomNumber(1, 100);
+            newCell.addEventListener("click", highlightCell);
+
+        }
+    }
+
+    function addColumn() {
+
+        // Добавляем ячейку в каждую существующую строку
+        for (let i = 0; i < table.rows.length; i++) {
+            let newRow = table.rows[i];
+            let newCell = newRow.insertCell();
+            newCell.textContent = getRandomNumber(1, 100);
+            newCell.addEventListener("click", highlightCell);
+
+        }
+    }
+
+    // Назначаем обработчики событий кнопкам
+    let addRowButton = document.getElementById("addRowButton"); // Замените "addRowButton" на ID вашей кнопки добавления ряда
+    let addColumnButton = document.getElementById("addColumnButton"); // Замените "addColumnButton" на ID вашей кнопки добавления колонки
+
+    addRowButton.addEventListener("click", addRow);
+    addColumnButton.addEventListener("click", addColumn);
+
+    // Функция для выделения ячеек цветом
+    function highlightCell(event) {
+        let cell = event.target;
+        let row = cell.parentNode;
+        console.log(row);
+        console.log(table);
+        let columnIndex = cell.cellIndex;
+
+        // Получаем значение ограничения для количества выделенных ячеек
+        let limit = parseInt(document.getElementById("limitInput").value);
+
+        let highlightedCountRow = 0;
+        for (let cell of row.cells) {
+            if (cell.classList.contains("highlight-even") || cell.classList.contains("highlight-odd")) {
+                highlightedCountRow += 1;
+            }
+        }
+
+        let highlightedCountCol = 0;
+        let col = []
+        for (let row of table.rows) {
+            col.push(row.cells[cell.cellIndex]);
+        }
+
+        for (let cell of col) {
+            if (cell.classList.contains("highlight-even") || cell.classList.contains("highlight-odd")) {
+                highlightedCountCol += 1;
+            }
+        }
+        let isNotLimited = highlightedCountRow < limit && highlightedCountCol < limit;
+        let isHighlighted = cell.classList.contains("highlight-even") || cell.classList.contains("highlight-odd");
+
+        let hasLeftNeighbor;
+        if (columnIndex === 0) {
+            hasLeftNeighbor = false;
+        } else {
+            hasLeftNeighbor = columnIndex > 0 && row.cells[columnIndex - 1].classList.contains("highlight-even") || row.cells[columnIndex - 1].classList.contains("highlight-odd");
+        }
+        let hasRightNeighbor;
+        if (columnIndex === row.cells.length - 1) {
+            hasRightNeighbor = false;
+        } else {
+            hasRightNeighbor = columnIndex < row.cells.length - 1 && row.cells[columnIndex + 1].classList.contains("highlight-even") || row.cells[columnIndex + 1].classList.contains("highlight-odd");
+        }
+
+        if (!isHighlighted) {
+            if (isNotLimited && (!hasLeftNeighbor) && (!hasRightNeighbor)) {
+                if (parseInt(cell.textContent) % 2 === 0) {
+                    cell.classList.add("highlight-even");
+                } else {
+                    cell.classList.add("highlight-odd");
+                }
+            }
+        } else {
+            cell.classList.remove("highlight-even", "highlight-odd");
+        }
+
+    }
+
+
+
+
+
+
+
+
+</script>
+</body>
+</html>

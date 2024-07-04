@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+Hello world
+<input value="Press" type="button" id="elem">
+<table id="tbl">
+    <tr>
+        <th colspan="3">Header</th>
+    </tr>
+    <tr>
+        <td>TD1</td>
+        <td>TD2</td>
+        <td>TD3</td>
+    </tr>
+</table>
+
+<button data-toggle-id="subscribe-mail">
+    Показать форму подписки
+</button>
+<form id="subscribe-mail" hidden>
+    Ваша почта: <input type="email">
+</form>
+<br><br>
+<button id="btn" onclick="alert('Click');">
+    Autoclick
+</button>
+<script>// true
+// function openWindow(){
+//     const popup = window.open("https://metanit.com", "_blank", "width=600,height=400");
+//     popup.moveTo(500,400);
+//     setTimeout(()=>popup.close(), 5000);
+// }
+//openWindow()
+var elem = document.getElementById("elem");
+elem.onclick =function (){
+    alert("Click!");
+};
+
+var table = document.getElementById("tbl")
+table.onclick = function(event){
+    var target = event.target;
+    if(target.tagName!=='TD') return;
+    target.innerHTML = "Clicked";
+};
+document.onclick = function(event){
+    var target = event.target;
+    var id = target.getAttribute("data-toggle-id");
+    if(!id) return;
+    var elem = document.getElementById(id);
+    elem.hidden =!elem.hidden;
+};
+var btn = document.getElementById("btn");
+var event = new Event("click");
+btn.dispatchEvent(event);
+var e = new MouseEvent("click", {
+    bubbles: true,
+    cancelable: true,
+    clientX: 100,
+    clientY: 100
+});
+
+alert(e.clientX); // 100
+
+</script>
+</body>
+</html>

@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Title</title>
+</head>
+<body>
+<script>
+    function Person(first, last, age, gender, interests){
+        this.name={
+            first, last
+        };
+        this.age =age;
+        this.gender = gender;
+        this.interests = interests;
+    }
+    Person.prototype.greeting = function(){
+        alert("Hi! I'm " + this.name.first+".");
+    }
+    person = new Person('qw','qw',23,'male', 'none');
+    person.greeting();
+    function Teacher(first, last, age, gender, interests, subject){
+        Person.call(this, first, last, age, gender, interests);
+        this.subject = subject;
+    }
+    console.log(Object.getOwnPropertyNames(Teacher.prototype));
+    Teacher.prototype = Object.create(Person.prototype);
+
+    console.log("1--->"+Teacher.prototype.constructor);
+    Object.defineProperty(Teacher.prototype, 'constructor',{
+        value: Teacher,
+        enumerable: false,
+        writable:true});
+
+    console.log("2--->"+Teacher.prototype.constructor);
+    Teacher.prototype.greeting = function () {
+        var prefix;
+
+        if (
+            this.gender === "male" ||
+            this.gender === "Male" ||
+            this.gender === "m" ||
+            this.gender === "M"
+        ) {
+            prefix = "Mr.";
+        } else if (
+            this.gender === "female" ||
+            this.gender === "Female" ||
+            this.gender === "f" ||
+            this.gender === "F"
+        ) {
+            prefix = "Mrs.";
+        } else {
+            prefix = "Mx.";
+        }
+
+        alert(
+            "Hello. My name is " +
+            prefix +
+            " " +
+            this.name.last +
+            ", and I teach " +
+            this.subject +
+            ".",
+        );
+    };
+    teacher = new Teacher('if','qwew',24,'Male','None','Math');
+    teacher.greeting();
+</script>
+</body>
+</html>
